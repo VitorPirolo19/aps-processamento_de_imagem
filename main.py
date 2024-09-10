@@ -1,30 +1,50 @@
-import cv2
+from PIL import Image, ImageFilter, ImageOps
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
-img_path = ''  # imagem de um lago sei la
-image = cv2.imread(img_path)
+img_path = '' 
+img = Image.open(img_path).convert('L')  # grayscale
 
-# grayscale
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+# gaussian blur
+blurred_img = img.filter(ImageFilter.GaussianBlur(radius=2))
 
-# gaussian blur para remover ruídos na imagem 
-blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+# edge detection (using the FIND_EDGES filter)
+edges_img = img.filter(ImageFilter.FIND_EDGES)
 
-# detector de bordas
-edges = cv2.Canny(blurred, 50, 150)
+# convert to binary image using thresholding
+threshold = 128
+binary_img = img.point(lambda p: p > threshold and 255)
 
-_, thresholded = cv2.threshold(blurred, 127, 255, cv2.THRESH_BINARY_INV)
+# invert the image 
+inverted_img = ImageOps.invert(binary_img)
 
-contours, _ = cv2.findContours(thresholded, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+img_np = np.array(img)
+blurred_np = np.array(blurred_img)
+edges_np = np.array(edges_img)
+binary_np = np.array(binary_img)
+inverted_np = np.array(inverted_img)
 
-# desenha borda
-contour_img = image.copy()
-cv2.drawContours(contour_img, contours, -1, (0, 255, 0), 3)
-
-# display
+# plotting the results using Matplotlib
 plt.figure(figsize=(10, 10))
-plt.subplot(1, 3, 1), plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB)), plt.title('Original Image')
-plt.subplot(1, 3, 2), plt.imshow(edges, cmap='gray'), plt.title('Edge Detection')
-plt.subplot(1, 3, 3), plt.imshow(cv2.cvtColor(contour_img, cv2.COLOR_BGR2RGB)), plt.title('Contours (Possible Garbage)')
+
+# original grayscale image
+plt.subplot(2, 2, 1)
+plt.imshow(img_np, cmap='gray')
+plt.title('Original Grayscale Image')
+
+# blurred image
+plt.subplot(2, 2, 2)
+plt.imshow(blurred_np, cmap='gray')
+plt.title('Blurred Image')
+
+# edge detection
+plt.subplot(2, 2, 3)
+plt.imshow(edges_np, cmap='gray')
+plt.title('Edge Detection')
+
+# thresholded (binary) and inverted image
+plt.subplot(2, 2, 4)
+plt.imshow(inverted_np, cmap='gray')
+plt.title('Inverted Binary Image')
+
 plt.show()

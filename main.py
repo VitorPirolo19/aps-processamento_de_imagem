@@ -2,7 +2,7 @@ from PIL import Image, ImageFilter, ImageOps
 import numpy as np
 import matplotlib.pyplot as plt
 
-img_path = '' 
+img_path = '/home/wirtz/projects/aps-processamento_de_imagem/30463395-poluido-rio-com-lixo-e-detritos-flutuando-em-a-superficie-generativo-ai-foto.jpeg' 
 img = Image.open(img_path).convert('L')  # grayscale
 
 # gaussian blur
@@ -25,26 +25,28 @@ binary_np = np.array(binary_img)
 inverted_np = np.array(inverted_img)
 
 # plotting the results using Matplotlib
+# Save the figure to an image file instead of displaying it interactively
 plt.figure(figsize=(10, 10))
 
-# original grayscale image
+# Original grayscale image
 plt.subplot(2, 2, 1)
 plt.imshow(img_np, cmap='gray')
 plt.title('Original Grayscale Image')
 
-# blurred image
+# Blurred image
 plt.subplot(2, 2, 2)
 plt.imshow(blurred_np, cmap='gray')
 plt.title('Blurred Image')
 
-# edge detection
+# Edge detection
 plt.subplot(2, 2, 3)
 plt.imshow(edges_np, cmap='gray')
 plt.title('Edge Detection')
 
-# thresholded (binary) and inverted image
+# Thresholded (binary) and inverted image
 plt.subplot(2, 2, 4)
 plt.imshow(inverted_np, cmap='gray')
 plt.title('Inverted Binary Image')
 
-plt.show()
+# Save the plot to a file
+plt.savefig('image_processing_results.png')

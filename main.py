@@ -2,7 +2,7 @@ from PIL import Image, ImageFilter, ImageOps
 import numpy as np
 import matplotlib.pyplot as plt
 
-img_path = '/home/wirtz/projects/aps-processamento_de_imagem/30463395-poluido-rio-com-lixo-e-detritos-flutuando-em-a-superficie-generativo-ai-foto.jpeg' 
+img_path = '/home/wirtz/projects/aps-processamento_de_imagem/images/hard/000551_jpg.rf.68c4b81ad94aa026cfa01279b0100e60.jpg' 
 img = Image.open(img_path).convert('L')  # grayscale
 
 # gaussian blur

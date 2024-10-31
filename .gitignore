@@ -161,6 +161,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-.png
-.JPG
-.jpg
+Multi-class-object-detection-main/**/.png
+Multi-class-object-detection-main/**/.JPG
+Multi-class-object-detection-main/**/.jpg
